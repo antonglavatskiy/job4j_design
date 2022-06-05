@@ -21,6 +21,14 @@ public class SimpleArrayListTest {
     }
 
     @Test
+    public void whenSizeEqualsZeroAddThenGetValue() {
+        list = new SimpleArrayList<>(0);
+        Assert.assertEquals(0, list.size());
+        list.add(1);
+        Assert.assertEquals(Integer.valueOf(1), list.get(0));
+    }
+
+    @Test
     public void whenAddThenSizeIncrease() {
         Assert.assertEquals(3, list.size());
     }
