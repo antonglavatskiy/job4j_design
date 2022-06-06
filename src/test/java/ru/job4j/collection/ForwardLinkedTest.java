@@ -8,6 +8,23 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class ForwardLinkedTest {
+    @Test
+    public void whenAddFirst() {
+        ForwardLinked<Integer> linked = new ForwardLinked<>();
+        linked.addFirst(1);
+        Iterator<Integer> it = linked.iterator();
+        assertThat(it.next(), is(1));
+    }
+
+    @Test
+    public void whenMultiAddFirst() {
+        ForwardLinked<Integer> linked = new ForwardLinked<>();
+        linked.addFirst(1);
+        linked.addFirst(2);
+        Iterator<Integer> it = linked.iterator();
+        assertThat(it.next(), is(2));
+    }
+
     @Test(expected = NoSuchElementException.class)
     public void whenDeleteFirst() {
         ForwardLinked<Integer> linked = new ForwardLinked<>();
