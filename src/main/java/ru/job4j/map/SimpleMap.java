@@ -1,6 +1,5 @@
 package ru.job4j.map;
 
-import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -18,16 +17,14 @@ public class SimpleMap<K, V> implements Map<K, V> {
         boolean result = false;
         int hashCode = key.hashCode();
         int index = indexFor(hash(hashCode));
-        if (size / LOAD_FACTOR == table.length) {
+        if (size / LOAD_FACTOR > capacity) {
+            capacity *= 2;
             expand();
         }
         if (table[index] == null) {
             table[index] = new MapEntry<>(key, value);
             modCount++;
             size++;
-            result = true;
-        } else if (table[index].key.hashCode() == hashCode) {
-            table[index].value = value;
             result = true;
         }
         return result;
@@ -38,7 +35,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
         V result = null;
         int hashCode = key.hashCode();
         int index = indexFor(hash(hashCode));
-        if (table[index] != null) {
+        if (table[index] != null && table[index].key.hashCode() == hashCode) {
             result = table[index].value;
         }
         return result;
@@ -49,7 +46,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
         boolean result = false;
         int hashCode = key.hashCode();
         int index = indexFor(hash(hashCode));
-        if (table[index] != null) {
+        if (table[index] != null && table[index].key.hashCode() == hashCode) {
             table[index] = null;
             modCount++;
             size--;
@@ -95,11 +92,18 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }
 
     private int indexFor(int hash) {
-        return (table.length - 1) & hash;
+        return (capacity - 1) & hash;
     }
 
     private void expand() {
-        table = Arrays.copyOf(table, table.length * 2);
+        MapEntry<K, V>[] temp = new MapEntry[capacity];
+        for (MapEntry<K, V> entry : table) {
+            if (entry != null) {
+                int index = indexFor(hash(entry.key.hashCode()));
+                temp[index] = entry;
+            }
+        }
+        table = temp;
     }
 
     private static class MapEntry<K, V> {

@@ -10,6 +10,26 @@ import java.util.NoSuchElementException;
 public class SimpleMapTest {
 
     @Test
+    public void whenAddKeyAndExpandMapThenGetValue() {
+        SimpleMap<Integer, String> simpleMap = new SimpleMap<>();
+        simpleMap.put(1, "one");
+        simpleMap.put(2, "two");
+        simpleMap.put(3, "three");
+        simpleMap.put(4, "four");
+        simpleMap.put(5, "five");
+        simpleMap.put(6, "six");
+        simpleMap.put(2, "six");
+        simpleMap.put(7, "seven");
+        simpleMap.put(8, "eight");
+        simpleMap.put(5, "eight");
+        simpleMap.put(9, "nine");
+        simpleMap.put(10, "ten");
+        Assert.assertEquals(10, simpleMap.size());
+        Assert.assertEquals("five", simpleMap.get(5));
+        Assert.assertEquals("two", simpleMap.get(2));
+    }
+
+    @Test
     public void whenAddUniqueKeyThenGetSize() {
         SimpleMap<Integer, String> simpleMap = new SimpleMap<>();
         simpleMap.put(1, "one");
@@ -45,12 +65,10 @@ public class SimpleMapTest {
     }
 
     @Test
-    public void whenAddKeyAndThenGetChangedValue() {
+    public void whenAddKeyAndThenGetFalse() {
         SimpleMap<Integer, String> simpleMap = new SimpleMap<>();
         simpleMap.put(1, "one");
-        simpleMap.put(1, "two");
-        String expected = "two";
-        Assert.assertEquals(expected, simpleMap.get(1));
+        Assert.assertFalse(simpleMap.put(1, "two"));
     }
 
     @Test
