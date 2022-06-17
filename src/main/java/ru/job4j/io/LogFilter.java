@@ -15,14 +15,6 @@ public class LogFilter {
                     .lines()
                     .filter(str -> str.contains(" 404 "))
                     .collect(Collectors.toList());
-            /*
-            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                String[] arr = line.split(" ");
-                if ("404".equals(arr[arr.length - 2])) {
-                    result.add(line);
-                }
-            }
-             */
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -33,6 +25,6 @@ public class LogFilter {
     public static void main(String[] args) {
         LogFilter logFilter = new LogFilter();
         List<String> log = logFilter.filter("log.txt");
-        System.out.println(log);
+        log.forEach(System.out::println);
     }
 }
