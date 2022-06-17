@@ -1,6 +1,7 @@
 package ru.job4j.io;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 
 public class EvenNumberFile {
     public static void main(String[] args) {
@@ -15,7 +16,7 @@ public class EvenNumberFile {
                 String result = Integer.parseInt(str) % 2 == 0 ? num + " is even" : num + " is odd";
                 System.out.println(result);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
