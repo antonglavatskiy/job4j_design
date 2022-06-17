@@ -15,7 +15,6 @@ public class LogFilter {
                     .lines()
                     .filter(str -> str.contains(" 404 "))
                     .collect(Collectors.toList());
-
         } catch (IOException e) {
             e.printStackTrace();
         }
