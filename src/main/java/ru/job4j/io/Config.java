@@ -6,32 +6,35 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Config {
     private final String path;
-    private final Map<String, String> values = new HashMap<>();
+    private Map<String, String> values = new HashMap<>();
 
     public Config(final String path) {
         this.path = path;
     }
 
     public void load() {
-        StringJoiner rsl = new StringJoiner(System.lineSeparator());
         try (BufferedReader reader = new BufferedReader(new FileReader(this.path))) {
-            reader.lines()
+            values = reader.lines()
                     .filter(str -> !str.isEmpty())
                     .filter(str -> str.charAt(0) != '#')
-                    .forEach(rsl::add);
-            String[] arr = rsl.toString().split("\n");
-            for (String str : arr) {
-                int index = str.indexOf('=');
-                if (index == -1
-                        || index == 0
-                        || (index == str.lastIndexOf('=') && index == str.length() - 1)) {
-                    throw new IllegalArgumentException();
-                }
-                values.put(str.substring(0, index), str.substring(index + 1));
-            }
+                    .flatMap(str -> Stream.of(str.split(System.lineSeparator())))
+                    .filter(str -> {
+                        int index = str.indexOf('=');
+                        if (index == -1
+                                || index == 0
+                                || (index == str.lastIndexOf('=')
+                                && index == str.length() - 1)) {
+                            throw new IllegalArgumentException();
+                        }
+                        return true;
+                    })
+                    .collect(Collectors.toMap(str -> str.substring(0, str.indexOf('=')),
+                            str -> str.substring(str.indexOf('=') + 1)));
         } catch (IOException e) {
             e.printStackTrace();
         }
