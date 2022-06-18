@@ -29,7 +29,9 @@ public class Config {
                                 || index == 0
                                 || (index == str.lastIndexOf('=')
                                 && index == str.length() - 1)) {
-                            throw new IllegalArgumentException();
+                            throw new IllegalArgumentException("File \""
+                                    + this.path
+                                    + "\" has an illegal or inappropriate content");
                         }
                         return true;
                     })
@@ -54,9 +56,5 @@ public class Config {
             e.printStackTrace();
         }
         return str.toString();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new Config("app.properties"));
     }
 }
