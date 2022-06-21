@@ -1,5 +1,6 @@
 package ru.job4j.io;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,9 +28,14 @@ public class Search {
             throw new IllegalArgumentException(String.format(
                     "Invalid number of arguments - \"%d\"", args.length));
         }
-        if (!Paths.get(args[0]).toFile().exists()) {
+        File current = new File(args[0]);
+        if (!current.exists()) {
             throw new IllegalArgumentException(String.format(
                     "Invalid path folder \"%s\"", args[0]));
+        }
+        if (!current.isDirectory()) {
+            throw new IllegalArgumentException(String.format(
+                    "File \"%s\" is not a directory", current.getName()));
         }
         if (!args[1].startsWith(".")) {
             throw new IllegalArgumentException(String.format(
