@@ -22,12 +22,18 @@ public class Search {
         return searcher.getPaths();
     }
 
-    public static boolean isValidParameters(String[] args) {
-        if (args.length == 0) {
-            throw new IllegalArgumentException("Root folder is null");
+    private static boolean isValidParameters(String[] args) {
+        if (args.length != 2) {
+            throw new IllegalArgumentException(String.format(
+                    "Invalid number of arguments - \"%d\"", args.length));
         }
-        if (args.length == 1) {
-            throw new IllegalArgumentException("Missing file extension");
+        if (!Paths.get(args[0]).toFile().exists()) {
+            throw new IllegalArgumentException(String.format(
+                    "Invalid path folder \"%s\"", args[0]));
+        }
+        if (!args[1].startsWith(".")) {
+            throw new IllegalArgumentException(String.format(
+                    "Invalid file extension \"%s\"", args[1]));
         }
         return true;
     }
