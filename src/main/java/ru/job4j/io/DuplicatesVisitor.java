@@ -28,7 +28,7 @@ public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
             if (map.get(fileProperty).size() > 1) {
                 System.out.println(String.format("File \"%s %d bytes\" repeated %d times",
                         fileProperty.getName(), fileProperty.getSize(), map.get(fileProperty).size()));
-                System.out.println(map.get(fileProperty));
+                map.get(fileProperty).forEach(System.out::println);
             }
         }
     }
