@@ -8,30 +8,35 @@ public class ArgsName {
 
     public String get(String key) {
         if (!values.containsKey(key)) {
-            throw new IllegalArgumentException("Key is not exist");
+            throw new IllegalArgumentException("Key " + key + "is not exist");
         }
         return values.get(key);
     }
 
     private void parse(String[] args) {
-        if (args.length == 0) {
-            throw new IllegalArgumentException("Arguments is not found");
-        }
         for (String param : args) {
-            if (!param.startsWith("-") || !param.contains("=")) {
-                throw new IllegalArgumentException("The argument is missing a sign = or -");
-            }
-            int index = param.indexOf("=");
-            if (param.startsWith("-=")
-                    || (index == param.lastIndexOf('=')
-                    && index == param.length() - 1)) {
-                throw new IllegalArgumentException("The argument is missing key or value");
-            }
+            int index = validate(param);
             values.put(param.substring(1, index), param.substring(index + 1));
         }
     }
 
+    private static int validate(String param) {
+        if (!param.startsWith("-") || !param.contains("=")) {
+            throw new IllegalArgumentException("The argument is missing a sign = or -");
+        }
+        int index = param.indexOf("=");
+        if (param.startsWith("-=")
+                || (index == param.lastIndexOf('=')
+                && index == param.length() - 1)) {
+            throw new IllegalArgumentException("The argument is missing key or value");
+        }
+        return index;
+    }
+
     public static ArgsName of(String[] args) {
+        if (args.length == 0) {
+            throw new IllegalArgumentException("Arguments is not found");
+        }
         ArgsName names = new ArgsName();
         names.parse(args);
         return names;
