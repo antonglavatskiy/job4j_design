@@ -8,7 +8,7 @@ public class ArgsName {
 
     public String get(String key) {
         if (!values.containsKey(key)) {
-            throw new IllegalArgumentException("Key " + key + "is not exist");
+            throw new IllegalArgumentException("Key " + key + " is not exist");
         }
         return values.get(key);
     }
