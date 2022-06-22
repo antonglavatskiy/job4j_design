@@ -32,12 +32,31 @@ public class Zip {
         }
     }
 
+    private void validate(String[] args) {
+        ArgsName argsZip = ArgsName.of(args);
+        args[0] = argsZip.get("d");
+        args[1] = argsZip.get("e");
+        args[2] = argsZip.get("o");
+        File search = new File(args[0]);
+        if (!search.exists()) {
+            throw new IllegalArgumentException(String.format(
+                    "Invalid path folder \"%s\"", args[0]));
+        }
+        if (!search.isDirectory()) {
+            throw new IllegalArgumentException(String.format(
+                    "File \"%s\" is not a directory", search.getName()));
+        }
+        if (!args[1].startsWith(".")) {
+            throw new IllegalArgumentException(String.format(
+                    "Invalid file extension \"%s\"", args[1]));
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         Zip zip = new Zip();
-        ArgsName argsZip = ArgsName.of(args);
-        Search searchZip = Search.of(new String[] {argsZip.get("d"), argsZip.get("e")});
-        List<Path> source = searchZip.search(Paths.get(argsZip.get("d")),
-                path -> !path.toFile().getName().endsWith(argsZip.get("e")));
-        zip.packFiles(source, new File(argsZip.get("o")));
+        zip.validate(args);
+        List<Path> source = Search.search(Paths.get(args[0]),
+                path -> !path.toFile().getName().endsWith(args[1]));
+        zip.packFiles(source, new File(args[2]));
     }
 }
