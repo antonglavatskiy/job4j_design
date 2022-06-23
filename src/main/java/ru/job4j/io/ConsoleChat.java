@@ -1,7 +1,6 @@
 package ru.job4j.io;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +24,16 @@ public class ConsoleChat {
         List<String> log = new ArrayList<>();
         String userAnswer = null;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            while (!STOP.equals(userAnswer)) {
+            while (!OUT.equals(userAnswer)) {
                 userAnswer = reader.readLine();
                 log.add(userAnswer);
-                if (OUT.equals(userAnswer) && botWork) {
+                if (STOP.equals(userAnswer) && botWork) {
                     botWork = false;
                 }
                 if (CONTINUE.equals(userAnswer) && !botWork) {
                     botWork = true;
                 }
-                if (botWork && !STOP.equals(userAnswer)) {
+                if (botWork && !OUT.equals(userAnswer)) {
                     Random random = new Random();
                     int index = random.nextInt(phrases.size());
                     System.out.println(phrases.get(index));
