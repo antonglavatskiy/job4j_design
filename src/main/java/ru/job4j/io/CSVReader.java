@@ -27,7 +27,7 @@ public class CSVReader {
                 throw new IllegalArgumentException(
                         String.format("Incorrect some column name %s", argsName.get("filter")));
             }
-            if (argsName.get("out").equals("stdout")) {
+            if ("stdout".equals(argsName.get("out"))) {
                 for (List<String> line : list) {
                     for (Integer num : indexes) {
                         if (indexes.indexOf(num) != indexes.size() - 1) {
