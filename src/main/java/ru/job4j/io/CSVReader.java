@@ -72,4 +72,8 @@ public class CSVReader {
                     "Invalid delimiter \"%s\"", argsName.get("delimiter")));
         }
     }
+
+    public static void main(String[] args) {
+        handle(ArgsName.of(args));
+    }
 }
