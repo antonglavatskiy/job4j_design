@@ -1,0 +1,11 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<book digital="false" price="350.50">
+    <title>Stories</title>
+    <author sex="true" age="31">
+        <name>Tom Smith</name>
+    </author>
+    <publishings>
+        <publishing>Piter</publishing>
+        <publishing>Exmo</publishing>
+    </publishings>
+</book>
