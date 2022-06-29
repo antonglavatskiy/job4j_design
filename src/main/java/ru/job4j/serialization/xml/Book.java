@@ -1,13 +1,24 @@
 package ru.job4j.serialization.xml;
 
+import javax.xml.bind.annotation.*;
 import java.util.Arrays;
 
+@XmlRootElement(name = "book")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Book {
+    @XmlAttribute
     private boolean digital;
+    @XmlElement(name = "author")
     private Author chiefAuthor;
     private String title;
+    @XmlAttribute
     private double price;
+    @XmlElementWrapper(name = "publishings")
+    @XmlElement(name = "publishing")
     private String[] publishingList;
+
+    public Book() {
+    }
 
     public Book(boolean digital, Author chiefAuthor, String title, double price, String[] publishingList) {
         this.digital = digital;

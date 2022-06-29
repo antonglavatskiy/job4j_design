@@ -1,9 +1,18 @@
 package ru.job4j.serialization.xml;
 
+import javax.xml.bind.annotation.*;
+
+@XmlRootElement(name = "author")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Author {
+    @XmlAttribute
     private boolean sex;
     private String name;
+    @XmlAttribute
     private int age;
+
+    public Author() {
+    }
 
     public Author(boolean sex, String name, int age) {
         this.sex = sex;
