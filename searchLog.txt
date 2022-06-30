@@ -1,0 +1,4 @@
+./target/classes/ru/job4j/io/Zip.class
+./target/site/jacoco/ru.job4j.io/Zip.java.html
+./target/site/jacoco/ru.job4j.io/Zip.html
+./src/main/java/ru/job4j/io/Zip.java
