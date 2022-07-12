@@ -66,8 +66,9 @@ select name Наименование, expired_date as "Срок годности
 from product 
 where expired_date < NOW();
 
-select max(price) as "Максимальная цена"
-from product;
+select name Наименование, price Цена
+from product
+where price = (select max(price) from product);
 
 select type.name Тип, count(*) Количество
 from type
