@@ -83,19 +83,16 @@ select car_bodies.name
 from car_bodies
 left join cars
 on car_bodies.id = cars.body_id
-group by car_bodies.name
-having count (cars.body_id) = 0;
+where cars.body_id is null;
 
 select car_engines.name
 from car_engines
 left join cars
 on car_engines.id = cars.engine_id
-group by car_engines.name
-having count (cars.engine_id) = 0;
+where cars.engine_id is null;
 
 select car_transmissions.name
 from car_transmissions
 left join cars
 on car_transmissions.id = cars.transmission_id
-group by car_transmissions.name
-having count (cars.transmission_id) = 0;
+where cars.transmission_id is null;
