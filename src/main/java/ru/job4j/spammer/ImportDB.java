@@ -25,10 +25,15 @@ public class ImportDB {
         List<User> users = new ArrayList<>();
         try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
             rd.lines().forEach(str -> {
-                if (str.charAt(0) == ';') {
-                    throw new  IllegalArgumentException("Incorrect some line");
-                }
                 String[] arr = str.split(";");
+                System.out.println(arr.length);
+                if (str.indexOf(';') == str.lastIndexOf(';')
+                        || arr.length != 2
+                        || arr[0].isEmpty()
+                        || arr[1].isEmpty()) {
+                    throw new IllegalArgumentException(
+                            "Incorrect some line in file \"" + dump + "\"");
+                }
                 users.add(new User(arr[0], arr[1]));
             });
         }
