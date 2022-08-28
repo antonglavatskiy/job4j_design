@@ -26,7 +26,8 @@ create or replace function tax_up()
 $$
     BEGIN
         update products
-        set price = price + price * 0.2;
+        set price = price * 1.2
+		 where id = (select id from inserted);
         return new;
     END;
 $$
@@ -44,15 +45,14 @@ create or replace function tax_down()
     returns trigger as
 $$
     BEGIN
-        update products
-        set price = price - price * 0.2;
+        new.price = new.price * 0.8;
         return new;
     END;
 $$
 LANGUAGE 'plpgsql';
 
 -- перед вставкой row уровень
-create trigger discount_trigger
+create trigger tax_down_trigger
     before insert
     on products
     for each row
@@ -70,12 +70,8 @@ $$
 $$
 LANGUAGE 'plpgsql';
 
-
+-- после вставки row уровень
 create trigger insert_history
-    before update on products
+    after insert on products
     for each row
     execute procedure insert_history();
-
-
-
-
