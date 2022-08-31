@@ -30,7 +30,7 @@ insert into products (name, count, price) VALUES ('product_20', 20, 100);
 begin;
 declare back cursor for select * from products;
 fetch last from back;
-move backward 2 from back;
+move backward 4 from back;
 fetch backward back;
 fetch backward 10 back;
 move backward 3 back;
