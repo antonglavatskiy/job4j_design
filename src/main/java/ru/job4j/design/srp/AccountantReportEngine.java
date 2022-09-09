@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.function.Predicate;
 
 public class AccountantReportEngine implements Report {
+    public static final double PERCENT = 0.1;
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd:MM:yyyy HH:mm");
     private Store store;
 
@@ -20,7 +21,7 @@ public class AccountantReportEngine implements Report {
             text.append(employee.getName()).append(";")
                     .append(DATE_FORMAT.format(employee.getHired().getTime())).append(";")
                     .append(DATE_FORMAT.format(employee.getFired().getTime())).append(";")
-                    .append(employee.getSalary() * 0.1).append(";")
+                    .append(employee.getSalary() * PERCENT).append(";")
                     .append(System.lineSeparator());
         }
         return text.toString();

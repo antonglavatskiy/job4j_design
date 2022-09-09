@@ -68,7 +68,7 @@ class ReportEngineTest {
                 .append(employee.getName()).append(";")
                 .append(DATE_FORMAT.format(employee.getHired().getTime())).append(";")
                 .append(DATE_FORMAT.format(employee.getFired().getTime())).append(";")
-                .append(employee.getSalary() * 0.1).append(";")
+                .append(employee.getSalary() * AccountantReportEngine.PERCENT).append(";")
                 .append(System.lineSeparator());
         assertThat(engine.generate(emp -> true)).isEqualTo(expect.toString());
     }
