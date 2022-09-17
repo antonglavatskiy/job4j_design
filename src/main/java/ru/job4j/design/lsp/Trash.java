@@ -9,7 +9,7 @@ public class Trash implements Store {
 
     @Override
     public List<Food> getFoods() {
-        return foods;
+        return List.copyOf(foods);
     }
 
     @Override

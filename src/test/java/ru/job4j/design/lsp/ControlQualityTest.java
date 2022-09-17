@@ -10,7 +10,10 @@ import static org.assertj.core.api.Assertions.*;
 class ControlQualityTest {
     @Test
     public void whenDistributeFoodThenAddTrash() {
-        List<Store> stores = List.of(new Shop(), new Warehouse(), new Trash());
+        Store shop = new Shop();
+        Store warehouse = new Warehouse();
+        Store trash = new Trash();
+        List<Store> stores = List.of(shop, warehouse, trash);
         Calendar expiryDate = Calendar.getInstance();
         Calendar createDate = Calendar.getInstance();
         expiryDate.add(Calendar.DAY_OF_MONTH, -2);
@@ -18,14 +21,17 @@ class ControlQualityTest {
         Food tomato = new Vegetable("Tomato", expiryDate, createDate, 75.99, 0.8);
         ControlQuality controlQuality = new ControlQuality(stores);
         controlQuality.distribution(tomato);
-        assertThat(stores.get(0).getFoods().size()).isEqualTo(0);
-        assertThat(stores.get(1).getFoods().size()).isEqualTo(0);
-        assertThat(stores.get(2).getFoods().get(0).getName()).isEqualTo("Tomato");
+        assertThat(shop.getFoods().size()).isEqualTo(0);
+        assertThat(warehouse.getFoods().size()).isEqualTo(0);
+        assertThat(trash.getFoods().get(0).getName()).isEqualTo("Tomato");
     }
 
     @Test
     public void whenDistributeFoodThenAddWarehouse() {
-        List<Store> stores = List.of(new Shop(), new Warehouse(), new Trash());
+        Store shop = new Shop();
+        Store warehouse = new Warehouse();
+        Store trash = new Trash();
+        List<Store> stores = List.of(shop, warehouse, trash);
         Calendar expiryDate = Calendar.getInstance();
         Calendar createDate = Calendar.getInstance();
         expiryDate.add(Calendar.DAY_OF_MONTH, 15);
@@ -33,14 +39,17 @@ class ControlQualityTest {
         Food apple = new Fruit("Apple", expiryDate, createDate, 190.50, 0.8);
         ControlQuality controlQuality = new ControlQuality(stores);
         controlQuality.distribution(apple);
-        assertThat(stores.get(0).getFoods().size()).isEqualTo(0);
-        assertThat(stores.get(1).getFoods().get(0).getName()).isEqualTo("Apple");
-        assertThat(stores.get(2).getFoods().size()).isEqualTo(0);
+        assertThat(shop.getFoods().size()).isEqualTo(0);
+        assertThat(warehouse.getFoods().get(0).getName()).isEqualTo("Apple");
+        assertThat(trash.getFoods().size()).isEqualTo(0);
     }
 
     @Test
     public void whenDistributeFoodThenAddShop() {
-        List<Store> stores = List.of(new Shop(), new Warehouse(), new Trash());
+        Store shop = new Shop();
+        Store warehouse = new Warehouse();
+        Store trash = new Trash();
+        List<Store> stores = List.of(shop, warehouse, trash);
         Calendar expiryDate = Calendar.getInstance();
         Calendar createDate = Calendar.getInstance();
         expiryDate.add(Calendar.DAY_OF_MONTH, 10);
@@ -48,14 +57,17 @@ class ControlQualityTest {
         Food peach = new Fruit("Peach", expiryDate, createDate, 120.89, 0.8);
         ControlQuality controlQuality = new ControlQuality(stores);
         controlQuality.distribution(peach);
-        assertThat(stores.get(0).getFoods().get(0).getName()).isEqualTo("Peach");
-        assertThat(stores.get(1).getFoods().size()).isEqualTo(0);
-        assertThat(stores.get(2).getFoods().size()).isEqualTo(0);
+        assertThat(shop.getFoods().get(0).getName()).isEqualTo("Peach");
+        assertThat(warehouse.getFoods().size()).isEqualTo(0);
+        assertThat(trash.getFoods().size()).isEqualTo(0);
     }
 
     @Test
     public void whenDistributeFoodThenAddShopWithChangePrice() {
-        List<Store> stores = List.of(new Shop(), new Warehouse(), new Trash());
+        Store shop = new Shop();
+        Store warehouse = new Warehouse();
+        Store trash = new Trash();
+        List<Store> stores = List.of(shop, warehouse, trash);
         Calendar expiryDate = Calendar.getInstance();
         Calendar createDate = Calendar.getInstance();
         expiryDate.add(Calendar.DAY_OF_MONTH, 2);
@@ -65,8 +77,38 @@ class ControlQualityTest {
         Food potato = new Vegetable("Potato", expiryDate, createDate, price, discount);
         ControlQuality controlQuality = new ControlQuality(stores);
         controlQuality.distribution(potato);
-        assertThat(stores.get(0).getFoods().get(0).getPrice())
+        assertThat(shop.getFoods().get(0).getPrice())
                 .isLessThan(price)
                 .isEqualTo(price * discount);
+    }
+
+    @Test
+    public void whenDistributeSeveralFoods() {
+        Store shop = new Shop();
+        Store warehouse = new Warehouse();
+        Store trash = new Trash();
+        List<Store> stores = List.of(shop, warehouse, trash);
+        ControlQuality controlQuality = new ControlQuality(stores);
+        Calendar expiryDate = Calendar.getInstance();
+        Calendar createDate = Calendar.getInstance();
+        expiryDate.add(Calendar.DAY_OF_MONTH, -2);
+        createDate.add(Calendar.DAY_OF_MONTH, -20);
+        Food tomato = new Vegetable("Tomato", expiryDate, createDate, 75.99, 0.8);
+        controlQuality.distribution(tomato);
+        expiryDate.add(Calendar.DAY_OF_MONTH, 17);
+        createDate.add(Calendar.DAY_OF_MONTH, 18);
+        Food apple = new Fruit("Apple", expiryDate, createDate, 190.50, 0.8);
+        controlQuality.distribution(apple);
+        expiryDate.add(Calendar.DAY_OF_MONTH, -5);
+        createDate.add(Calendar.DAY_OF_MONTH, -3);
+        Food peach = new Fruit("Peach", expiryDate, createDate, 120.89, 0.8);
+        controlQuality.distribution(peach);
+        expiryDate.add(Calendar.DAY_OF_MONTH, -8);
+        createDate.add(Calendar.DAY_OF_MONTH, -10);
+        Food potato = new Vegetable("Potato", expiryDate, createDate, 30.45, 0.8);
+        controlQuality.distribution(potato);
+        assertThat(shop.getFoods().size()).isEqualTo(2);
+        assertThat(warehouse.getFoods().size()).isEqualTo(1);
+        assertThat(trash.getFoods().size()).isEqualTo(1);
     }
 }
