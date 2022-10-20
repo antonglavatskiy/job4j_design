@@ -26,6 +26,20 @@ public class Parking implements Place {
 
     @Override
     public boolean add(Vehicle vehicle) {
-        return false;
+        boolean rsl = false;
+        if (vehicle.getSize() == Car.SIZE && carCell >= Car.SIZE) {
+            carList.add(vehicle);
+            carCell--;
+            rsl = true;
+        } else if (vehicle.getSize() > Car.SIZE && truckCell >= Car.SIZE) {
+            truckList.add(vehicle);
+            truckCell--;
+            rsl = true;
+        } else if (vehicle.getSize() > Car.SIZE && truckCell < Car.SIZE && carCell >= vehicle.getSize()) {
+            carList.add(vehicle);
+            carCell -= vehicle.getSize();
+            rsl = true;
+        }
+        return rsl;
     }
 }

@@ -1,40 +1,30 @@
 package ru.job4j.design.lsp.parking;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Disabled
 class ParkingTest {
     @Test
     public void whenAdd2CarsAndTruckThanAllPark() {
         Vehicle lada = new Car();
         Vehicle uaz = new Car();
         Vehicle man = new Truck(2);
-        Parking parking = new Parking(2, 1);
-        assertThat(parking.add(lada)).isEqualTo(true);
-        assertThat(parking.add(uaz)).isEqualTo(true);
-        assertThat(parking.add(man)).isEqualTo(true);
-        /*
-        assertThat(parking.getCarList()).isEqualTo(List.of(lada, uaz));
-        assertThat(parking.getTruckList()).isEqualTo(List.of(man));
-         */
+        Place parking = new Parking(2, 1);
+        assertTrue(parking.add(lada));
+        assertTrue(parking.add(uaz));
+        assertTrue(parking.add(man));
     }
 
     @Test
     public void whenAdd2TrucksThanAllPark() {
         Vehicle man = new Truck(2);
         Vehicle iveco = new Truck(2);
-        Parking parking = new Parking(2, 1);
-        assertThat(parking.add(man)).isEqualTo(true);
-        assertThat(parking.add(iveco)).isEqualTo(true);
-        /*
-        assertThat(parking.getCarList()).isEqualTo(List.of(iveco));
-        assertThat(parking.getTruckList()).isEqualTo(List.of(man));
-         */
+        Place parking = new Parking(2, 1);
+        assertTrue(parking.add(man));
+        assertTrue(parking.add(iveco));
     }
 
     @Test
@@ -42,15 +32,10 @@ class ParkingTest {
         Vehicle lada = new Car();
         Vehicle man = new Truck(2);
         Vehicle iveco = new Truck(2);
-        Parking parking = new Parking(0, 1);
-        assertThat(parking.add(lada)).isEqualTo(false);
-        assertThat(parking.add(man)).isEqualTo(true);
-        assertThat(parking.add(iveco)).isEqualTo(false);
-        /*
-        assertThat(parking.getCarList().size()).isEqualTo(0);
-        assertThat(parking.getTruckList()).isEqualTo(List.of(man));
-         */
-
+        Place parking = new Parking(0, 1);
+        assertFalse(parking.add(lada));
+        assertTrue(parking.add(man));
+        assertFalse(parking.add(iveco));
     }
 
     @Test
@@ -58,14 +43,10 @@ class ParkingTest {
         Vehicle lada = new Car();
         Vehicle man = new Truck(2);
         Vehicle iveco = new Truck(2);
-        Parking parking = new Parking(4, 0);
-        assertThat(parking.add(man)).isEqualTo(true);
-        assertThat(parking.add(iveco)).isEqualTo(true);
-        assertThat(parking.add(lada)).isEqualTo(false);
-        /*
-        assertThat(parking.getCarList()).isEqualTo(List.of(man, iveco));
-        assertThat(parking.getTruckList().size()).isEqualTo(0);
-         */
+        Place parking = new Parking(4, 0);
+        assertTrue(parking.add(man));
+        assertTrue(parking.add(iveco));
+        assertFalse(parking.add(lada));
     }
 
     @Test
