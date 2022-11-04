@@ -8,25 +8,27 @@ public class SimpleMenu implements Menu {
 
     @Override
     public boolean add(String parentName, String childName, ActionDelegate actionDelegate) {
-        boolean rsl = false;
-        Optional<ItemInfo> parent = findItem(parentName);
-        Optional<ItemInfo> child = findItem(childName);
-        if (parent.isEmpty()) {
+        if (findItem(childName).isPresent()) {
+            return false;
+        }
+        if (Objects.equals(parentName, ROOT)) {
             rootElements.add(new SimpleMenuItem(childName, actionDelegate));
-            rsl = true;
+            return true;
         }
-        if (child.isEmpty() && parent.isPresent()) {
-            parent.get().menuItem.getChildren().add(new SimpleMenuItem(childName, actionDelegate));
-            rsl = true;
+        Optional<ItemInfo> parent = findItem(parentName);
+        if (parent.isPresent()) {
+            parent.get().menuItem.getChildren()
+                    .add(new SimpleMenuItem(childName, actionDelegate));
+        } else {
+            return false;
         }
-        return rsl;
+        return true;
     }
 
     @Override
     public Optional<MenuItemInfo> select(String itemName) {
-        Optional<ItemInfo> itemInfo = findItem(itemName);
-        MenuItemInfo rsl = new MenuItemInfo(itemInfo.get().menuItem, itemInfo.get().number);
-        return Optional.of(rsl);
+        return findItem(itemName).map(itemInfo ->
+                new MenuItemInfo(itemInfo.menuItem, itemInfo.number));
     }
 
     @Override

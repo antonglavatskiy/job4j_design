@@ -55,12 +55,13 @@ class SimpleMenuTest {
         menu.add("Сходить в магазин", "Купить продукты", STUB_ACTION);
         menu.add("Купить продукты", "Купить хлеб", STUB_ACTION);
         menu.add("Купить продукты", "Купить молоко", STUB_ACTION);
-        String expected = "1.Сходить в магазин" + ENTER
-                            + "----1.1.Купить продукты" + ENTER
-                            + "--------1.1.1.Купить хлеб" + ENTER
-                            + "--------1.1.2.Купить молоко" + ENTER
-                            + "2.Покормить собаку" + ENTER;
+        StringBuilder expected =
+                new StringBuilder("1.Сходить в магазин").append(ENTER)
+                        .append("----1.1.Купить продукты").append(ENTER)
+                        .append("--------1.1.1.Купить хлеб").append(ENTER)
+                        .append("--------1.1.2.Купить молоко").append(ENTER)
+                        .append("2.Покормить собаку").append(ENTER);
         menuPrinter.print(menu);
-        assertThat(expected).isEqualTo(output.toString());
+        assertThat(expected.toString()).isEqualTo(output.toString());
     }
 }
