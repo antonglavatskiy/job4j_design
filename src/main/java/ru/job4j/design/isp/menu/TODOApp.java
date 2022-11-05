@@ -37,38 +37,39 @@ public class TODOApp {
         boolean run = true;
         System.out.println(START);
         while (run) {
-            int num = scanner.nextInt();
-            scanner.nextLine();
-            if (num == ONE) {
-                System.out.println(CREATE);
-                int choice = scanner.nextInt();
-                if (choice == ONE) {
-                    System.out.println(TASK);
-                    scanner.nextLine();
-                    String childName = scanner.nextLine();
-                    menu.add(Menu.ROOT, childName, STUB_ACTION);
+            try {
+                int num = Integer.parseInt(scanner.nextLine());
+                if (num == ONE) {
+                    System.out.println(CREATE);
+                    int choice = Integer.parseInt(scanner.nextLine());
+                    if (choice == ONE) {
+                        System.out.println(TASK);
+                        String childName = scanner.nextLine();
+                        menu.add(Menu.ROOT, childName, STUB_ACTION);
+                        System.out.println(ENTER + START);
+                    } else if (choice == TWO) {
+                        System.out.println(SUBTASK);
+                        String parentName = scanner.nextLine();
+                        String childName = scanner.nextLine();
+                        menu.add(parentName, childName, STUB_ACTION);
+                        System.out.println(START);
+                    } else if (choice == THREE) {
+                        System.out.println(START);
+                    }
+                } else if (num == TWO) {
+                    if (menu.iterator().hasNext()) {
+                        printer.print(menu);
+                    } else {
+                        System.out.println(EMPTY);
+                    }
                     System.out.println(ENTER + START);
-                } else if (choice == TWO) {
-                    System.out.println(SUBTASK);
-                    scanner.nextLine();
-                    String parentName = scanner.nextLine();
-                    String childName = scanner.nextLine();
-                    menu.add(parentName, childName, STUB_ACTION);
-                    System.out.println(START);
-                } else if (choice == THREE) {
-                    System.out.println(START);
-                }
-            } else if (num == TWO) {
-                if (menu.iterator().hasNext()) {
-                    printer.print(menu);
+                } else if (num == THREE) {
+                    run = false;
                 } else {
-                    System.out.println(EMPTY);
+                    System.out.println(START);
                 }
+            } catch (NumberFormatException e) {
                 System.out.println(ENTER + START);
-            } else if (num == THREE) {
-                run = false;
-            } else {
-                System.out.println(START);
             }
         }
     }
