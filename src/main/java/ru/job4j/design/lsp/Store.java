@@ -9,6 +9,8 @@ public interface Store {
 
     List<Food> getFoods();
 
+    void clearStore();
+
     default double expiryCalculate(Food food) {
         return (double) (Calendar.getInstance().getTime().getTime() - food.getCreateDate().getTime().getTime())
                 / (food.getExpiryDate().getTime().getTime() - food.getCreateDate().getTime().getTime());

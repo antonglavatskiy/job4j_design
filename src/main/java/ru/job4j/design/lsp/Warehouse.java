@@ -13,6 +13,11 @@ public class Warehouse implements Store {
     }
 
     @Override
+    public void clearStore() {
+        foods.clear();
+    }
+
+    @Override
     public boolean add(Food food) {
         boolean rsl = false;
         double percent = expiryCalculate(food);

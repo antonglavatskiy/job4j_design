@@ -111,4 +111,50 @@ class ControlQualityTest {
         assertThat(warehouse.getFoods().size()).isEqualTo(1);
         assertThat(trash.getFoods().size()).isEqualTo(1);
     }
+
+    @Test
+    public void whenDistributeFoodsAndResortWithChange() {
+        Store shop = new Shop();
+        Store warehouse = new Warehouse();
+        Store trash = new Trash();
+        List<Store> stores = List.of(shop, warehouse, trash);
+        Calendar expiryDate = Calendar.getInstance();
+        Calendar createDate = Calendar.getInstance();
+        expiryDate.add(Calendar.DAY_OF_MONTH, 10);
+        createDate.add(Calendar.DAY_OF_MONTH, -5);
+        Food peach = new Fruit("Peach", expiryDate, createDate, 120.89, 0.8);
+        ControlQuality controlQuality = new ControlQuality(stores);
+        controlQuality.distribution(peach);
+        assertThat(shop.getFoods().get(0).getName()).isEqualTo("Peach");
+        assertThat(warehouse.getFoods().size()).isEqualTo(0);
+        assertThat(trash.getFoods().size()).isEqualTo(0);
+        expiryDate.add(Calendar.DAY_OF_MONTH, -11);
+        peach.setExpiryDate(expiryDate);
+        controlQuality.resort();
+        assertThat(trash.getFoods().get(0).getName()).isEqualTo("Peach");
+        assertThat(warehouse.getFoods().size()).isEqualTo(0);
+        assertThat(shop.getFoods().size()).isEqualTo(0);
+    }
+
+    @Test
+    public void whenDistributeFoodsAndResortWithoutChanges() {
+        Store shop = new Shop();
+        Store warehouse = new Warehouse();
+        Store trash = new Trash();
+        List<Store> stores = List.of(shop, warehouse, trash);
+        Calendar expiryDate = Calendar.getInstance();
+        Calendar createDate = Calendar.getInstance();
+        expiryDate.add(Calendar.DAY_OF_MONTH, 10);
+        createDate.add(Calendar.DAY_OF_MONTH, -5);
+        Food peach = new Fruit("Peach", expiryDate, createDate, 120.89, 0.8);
+        ControlQuality controlQuality = new ControlQuality(stores);
+        controlQuality.distribution(peach);
+        assertThat(shop.getFoods().get(0).getName()).isEqualTo("Peach");
+        assertThat(warehouse.getFoods().size()).isEqualTo(0);
+        assertThat(trash.getFoods().size()).isEqualTo(0);
+        controlQuality.resort();
+        assertThat(shop.getFoods().get(0).getName()).isEqualTo("Peach");
+        assertThat(warehouse.getFoods().size()).isEqualTo(0);
+        assertThat(trash.getFoods().size()).isEqualTo(0);
+    }
 }
